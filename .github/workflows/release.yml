@@ -47,12 +47,12 @@ jobs:
         with:
           repo: Yet-Another-Software-Suite/vendor-json-repo
           token: ${{ secrets.PUBLISH_VENDOR_JSON_TOKEN }}
-          vendordep_file: ${{ env.workingDirectory }}/build/maven/yams-${{inputs.releaseVersion}}.json
+          vendordep_file: ${{ env.workingDirectory }}/build/maven/yagsl-${{inputs.releaseVersion}}.json
           pr_title: "Automatically add YAGSL version ${{inputs.releaseVersion}}"
           pr_branch: "publish_yagsl_${{inputs.releaseVersion}}"
         continue-on-error: true
-      - name: Output Pages Tree
-        run: find ${{ env.workingDirectory }}/build/maven/ -type f
+#      - name: Output Pages Tree
+#        run: find ${{ env.workingDirectory }}/build/maven/ -type f
       - name: Upload pages
         run: git add . && git commit -m "Automatically add YAGSL version ${{inputs.releaseVersion}}" && git push
         working-directory: ${{ env.workingDirectory }}/build/maven/
