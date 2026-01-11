@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -122,13 +123,13 @@ public abstract class SmartOpponent extends SubsystemBase {
                         + "'s Behaviors",
                 config.updateBehaviorChooser());
         /// Run behavior command when changed.
-        config.getBehaviorChooser().onChange(Command::schedule);
+        config.getBehaviorChooser().onChange(a -> CommandScheduler.getInstance().schedule(a));
         /// Finally, add our simulation
         SimulatedArena.getInstance().addDriveTrainSimulation(drivetrainSim.getDriveTrainSimulation());
         if (config.isAutoEnable) {
             RobotModeTriggers.teleop()
                     .onTrue(Commands.runOnce(
-                            () -> config.getBehaviorChooser().getSelected().schedule()));
+                            () -> CommandScheduler.getInstance().schedule(config.getBehaviorChooser().getSelected())));
             RobotModeTriggers.disabled().onTrue(standbyState());
         }
         /// If a manager is set register with it
@@ -212,18 +213,18 @@ public abstract class SmartOpponent extends SubsystemBase {
     public void simulationPeriodic() {
         // If command not in progress and standby isn't the desired state. Or if a restartInterrupt occurred, restarting the current state.
         if (!config.commandInProgress && !Objects.equals("Standby", config.desiredState)) {
-            runState(config.desiredState, false).schedule();
+          CommandScheduler.getInstance().schedule(runState(config.desiredState, false));
         }
         // If restart requested, do that now.
         if (restartInterrupt) {
-            runState(config.desiredState, true).schedule();
+          CommandScheduler.getInstance().schedule(runState(config.desiredState, true));
             notMovingTimer.restart();
             restartInterrupt = false;
         }
         // If we are very stuck reload from start.
         if (notMovingTimer.hasElapsed(5)) {
             drivetrainSim.setSimulationWorldPose(config.initialPose);
-            runState(config.desiredState, true).schedule();
+          CommandScheduler.getInstance().schedule(runState(config.desiredState, true));
         }
         // If the timer is not running and a command is running and the opponent is not moving, start the timer.
         if (!notMovingTimer.isRunning() && config.commandInProgress && !isMoving(notMovingThreshold)) {

@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import swervelib.simulation.ironmaple.simulation.opponentsim.pathfinding.MapleADStar;
 
 import java.util.*;
@@ -81,7 +82,7 @@ public class OpponentManager {
      * @return this, for chaining.
      */
     public OpponentManager withDefaults() {
-        PathfindingCommand.warmupCommand().schedule();
+      CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
         this
                 .withDefaultInitialPoses()
                 .withDefaultQueeningPoses();
