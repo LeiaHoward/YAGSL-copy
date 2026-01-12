@@ -22,6 +22,7 @@ import swervelib.simulation.ironmaple.simulation.gamepieces.GamePiece;
 import swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceOnFieldSimulation;
 import swervelib.simulation.ironmaple.simulation.gamepieces.GamePieceProjectile;
 import swervelib.simulation.ironmaple.simulation.motorsims.SimulatedBattery;
+import swervelib.simulation.ironmaple.simulation.opponentsim.OpponentManager;
 import swervelib.simulation.ironmaple.simulation.seasonspecific.rebuilt2026.Arena2026Rebuilt;
 import swervelib.simulation.ironmaple.utils.mathutils.GeometryConvertor;
 
@@ -93,6 +94,7 @@ public abstract class SimulatedArena {
     Boolean shouldPublishMatchBreakdown = true;
 
     private static SimulatedArena instance = null;
+        protected OpponentManager opponentManager;
 
     /**
      *
@@ -168,6 +170,27 @@ public abstract class SimulatedArena {
     public int getScore(Alliance allianceColor) {
         return getScore(allianceColor == Alliance.Blue);
     }
+
+
+    /**
+     * Adds an OpponentManager to the SimulatedArena.
+     *
+     * @param opponentManager the OpponentManager to use.
+     */
+    protected void withOpponentManager(OpponentManager opponentManager) {
+        this.opponentManager = opponentManager;
+    }
+
+    /**
+     * Gets the current {@link OpponentManager}. Use casting for your Arena, some arenas may override with castless
+     * methods.
+     *
+     * @return the {@link OpponentManager} in use.
+     */
+    public OpponentManager getOpponentManager() {
+        return opponentManager;
+    }
+
 
     /**
      *
