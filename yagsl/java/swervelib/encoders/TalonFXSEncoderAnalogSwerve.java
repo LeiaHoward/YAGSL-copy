@@ -75,7 +75,7 @@ public class TalonFXSEncoderAnalogSwerve extends SwerveAbsoluteEncoder
   @Override
   public double getAbsolutePosition()
   {
-    var angle = Rotations.of(analogVoltage.refresh().getValueAsDouble() / 5.0);
+    var angle = Rotations.of(analogVoltage.refresh().getValueAsDouble() / 3.3);
     return (inverted ? Rotations.of(1).minus(angle) : angle).minus(offset).in(Degrees);
   }
 
