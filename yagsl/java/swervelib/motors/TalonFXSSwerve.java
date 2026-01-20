@@ -349,7 +349,7 @@ public class TalonFXSSwerve extends SwerveMotor
       motor.setControl(m_velocityVoltageSetter.withVelocity(setpoint).withFeedForward(feedforward));
     } else
     {
-      motor.setControl(m_angleVoltageSetter.withPosition(setpoint / 360.0));
+      motor.setControl(m_angleVoltageSetter.withPosition(setpoint));
     }
   }
 
@@ -418,7 +418,7 @@ public class TalonFXSSwerve extends SwerveMotor
   {
     if (!absoluteEncoder && !SwerveDriveTelemetry.isSimulation)
     {
-      cfg.setPosition(Degrees.of(position).in(Rotations));
+      cfg.setPosition(Degrees.of(position).in(Degrees));
     }
   }
 
