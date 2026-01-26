@@ -61,7 +61,7 @@ public class ReflectionsManager
         }
         case THRIFTYBOT ->
         {
-          library = Class.forName("com.thethriftybot.ThriftyNova");
+          library = Class.forName("com.thethriftybot.devices.ThriftyNova");
           break;
         }
         case STUDICA ->
